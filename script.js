@@ -16,11 +16,13 @@ function fetchDataAndAddMarkers(map) {
         .then(response => response.json())
         .then(data => {
             const rows = data.values;
+            const bounds = new google.maps.LatLngBounds();
             rows.forEach((row, index) => {
                 if (index !== 0) {
                     addMarker(map, row);
                 }
             });
+            map.fitBounds(bounds);
         });
 }
 
@@ -44,10 +46,27 @@ function addMarker(map, row) {
             iconColor = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
     }
 
+    const position = {lat: lat, lng: lng};
     new google.maps.Marker({
         position : {lat: lat, lng: lng},
         map      : map,
         icon     : iconColor,
         title    : row[2]
+    });
+
+    bounds.extend(position);
+
+    const infoWindow = new google.maps.InfoWindow({
+        content: `<div><strong>${row[2]}</strong><br>Status: ${status}</div>`
+    });
+
+    // Exibe o InfoWindow ao passar o mouse sobre o marcador
+    marker.addListener('mouseover', () => {
+        infoWindow.open(map, marker);
+    });
+
+    // Fecha o InfoWindow ao retirar o mouse do marcador
+    marker.addListener('mouseout', () => {
+        infoWindow.close();
     });
 }
