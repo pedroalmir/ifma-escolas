@@ -9,7 +9,7 @@ function initMap() {
 
 function fetchDataAndAddMarkers(map) {
     const spreadsheetId = '1T_MY6vF7Sk7OOo-X0GEHAwy2N4jDPG6pxR_SaOFh9GA';
-    const apiKey        = 'AIzaSyA09xFTprqNwyBIqR1z2AClYpqzvTj7fU0';
+    const apiKey        = 'AIzaSyDrggDwzRN5yZNW-SzxHsq8ta0XXLbBEbw';
     const range         = 'public!A2:K22';
     
     fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`)
