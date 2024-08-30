@@ -24,7 +24,7 @@ class Escola {
             <b>Diretor:</b> ${this.diretor}<br>
         `;
         if(this.status === 'Pendente Agendamento'){
-            content += '<p style="text-align: center"><a href="${this.whatsAppLink}" target="_blank" class="whatsapp-button" style="color: white;">Agendar via WhatsApp</a></p>'
+            content += `<p style="text-align: center"><a href="${this.whatsAppLink}" target="_blank" class="whatsapp-button" style="color: white;">Agendar via WhatsApp</a></p>`
         }else if(this.status === 'Aguardando Visita'){
             content += `<b>Data da Visita:</b> ${this.dataAgendamento}<br>`
         }

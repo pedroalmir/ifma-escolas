@@ -14,6 +14,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+        @media only screen and (max-width: 768px) {
+            .note-only {
+                display: none;
+            }
+        }
         #map {
             height: 100vh;
             width: 100%;
@@ -75,7 +80,7 @@
     <div id="chart-container">
         <canvas id="statusChart"></canvas>
     </div>
-    <div class="table-container" id="visits-table-container">
+    <div class="table-container note-only" id="visits-table-container">
         <table class="table table-striped table-bordered">
             <thead class="table table-dark">
                 <tr>
@@ -84,15 +89,14 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- O corpo da tabela inicialmente estará vazio -->
             </tbody>
         </table>
     </div>
     <div id="project-details" class="card" style="width: 18rem;">
         <div class="card-body">
-            <h5 class="card-title"><a href="#" target="_blank">IFMA nas Escolas</a></h5>
+            <h5 class="card-title">IFMA nas Escolas</h5>
             <h6 class="card-subtitle mb-2 text-body-secondary">Projeto de Extensão</h6>
-            <p class="card-text">Desde 2016 divulgando o seletivo do Campus Pedreiras na região do Médio Mearim.</p>
+            <p class="card-text note-only">Desde 2016 divulgando o seletivo do Campus Pedreiras na região do Médio Mearim.</p>
             <a href="https://docs.google.com/spreadsheets/d/1T_MY6vF7Sk7OOo-X0GEHAwy2N4jDPG6pxR_SaOFh9GA/edit?usp=sharing" target="_blank" class="card-link">Planilha de Agendamento</a>
         </div>
     </div>
