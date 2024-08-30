@@ -11,7 +11,7 @@
     <link rel="icon" href="imgs/if.png" sizes="16x16" type="image/png">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         #map {
@@ -61,6 +61,12 @@
         .table-container .table {
             margin: 0;
         }
+        #project-details{
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
     </style>
 </head>
 
@@ -81,6 +87,14 @@
                 <!-- O corpo da tabela inicialmente estará vazio -->
             </tbody>
         </table>
+    </div>
+    <div id="project-details" class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title"><a href="#" target="_blank">IFMA nas Escolas</a></h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">Projeto de Extensão</h6>
+            <p class="card-text">Desde 2016 divulgando o seletivo do Campus Pedreiras na região do Médio Mearim.</p>
+            <a href="https://docs.google.com/spreadsheets/d/1T_MY6vF7Sk7OOo-X0GEHAwy2N4jDPG6pxR_SaOFh9GA/edit?usp=sharing" target="_blank" class="card-link">Planilha de Agendamento</a>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
