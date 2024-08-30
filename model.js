@@ -9,21 +9,8 @@ class Escola {
         this.longitude       = parseFloat(longitude);
         this.status          = status;
         this.diretor         = diretor;
-        this.whatsAppLink    = `https://wa.me/${whatsApp}?text=${message}`;
+        this.whatsAppLink    = `https://wa.me/+${whatsApp}?text=${message}`;
         this.dataAgendamento = dataAgendamento;
-    }
-
-    getMarkerColor() {
-        switch (this.status) {
-            case 'Pendente Agendamento':
-                return 'red';
-            case 'Aguardando Visita':
-                return 'yellow';
-            case 'Visitada':
-                return 'green';
-            default:
-                return 'blue';
-        }
     }
 
     getCoordinates() {
@@ -31,11 +18,17 @@ class Escola {
     }
 
     getPopupContent() {
-        return `
+        var content = `
             <b>${this.nome}</b><br>
             <b>Status:</b> ${this.status}<br>
             <b>Diretor:</b> ${this.diretor}<br>
-            <a href="${this.whatsAppLink}" target="_blank" class="whatsapp-button">Entrar em contato via WhatsApp</a>
         `;
+        if(this.status === 'Pendente Agendamento'){
+            content += '<p style="text-align: center"><a href="${this.whatsAppLink}" target="_blank" class="whatsapp-button" style="color: white;">Agendar via WhatsApp</a></p>'
+        }else if(this.status === 'Aguardando Visita'){
+            content += `<b>Data da Visita:</b> ${this.dataAgendamento}<br>`
+        }
+
+        return content;
     }
 }

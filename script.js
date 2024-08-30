@@ -3,7 +3,7 @@ const ped_lng = -44.7703252;
 
 function initMap() {
     const map = L.map('map').setView([ped_lat, ped_lng], 10);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
@@ -20,6 +20,11 @@ function fetchDataAndAddMarkers(map) {
         .then(data => {
             const bounds = [];
             const rows = data.values;
+            /*const rows = [
+                [],
+                ["", "", "Escola 1", "", "-4.5659281", "-44.5996056", "Diretor 1", "", "+5586988477922", "29/08/2024", "Pendente Agendamento"],
+                ["", "", "Escola 2", "", "-4.5800499", "-44.6134669", "Diretor 2", "", "+5586988477922", "29/08/2024", "Aguardando Visita"],
+            ];*/
             const upcomingVisits = [];
 
             const statusCounts = {
@@ -49,23 +54,41 @@ function fetchDataAndAddMarkers(map) {
         });
 }
 
+function getMarkerColor(status) {
+    if(status === 'Visitada'){
+        return greenIcon = L.icon({
+            iconUrl     : 'imgs/placeholder-green.png',
+            iconSize    : [32, 32], 
+            iconAnchor  : [12, 41], 
+            popupAnchor : [1, -34],
+          });
+    }else if(status === 'Aguardando Visita'){
+        return L.icon({
+            iconUrl     : 'imgs/placeholder-yellow.png',
+            iconSize    : [32, 32],
+            iconAnchor  : [12, 41],
+            popupAnchor : [1, -34],
+          });
+    }else{
+        return L.icon({
+            iconUrl     : 'imgs/placeholder-red.png',
+            iconSize    : [32, 32],
+            iconAnchor  : [12, 41],
+            popupAnchor : [1, -34],
+          });
+    }
+}
+
 function addMarker(map, escola, bounds) {
-    const marker = L.circleMarker(escola.getCoordinates(), {
-        color: escola.getMarkerColor(),
-        radius: 8,
-        fillOpacity: 0.8
+
+    const marker = L.marker(escola.getCoordinates(), {
+        icon: getMarkerColor(escola.status)
     }).addTo(map);
 
     bounds.push(escola.getCoordinates());
     marker.bindPopup(escola.getPopupContent());
 
-    marker.on('mouseover', function () {
-        this.openPopup();
-    });
-
-    marker.on('mouseout', function () {
-        this.closePopup();
-    });
+    
 }
 
 function updateChart(statusCounts) {
@@ -73,32 +96,51 @@ function updateChart(statusCounts) {
     new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: ['Pendente Contato', 'Aguardando Visita', 'Visitada'],
+            labels: ['Pendente Agendamento', 'Aguardando Visita', 'Visitada'],
             datasets: [{
                 data: [
-                    statusCounts['Pendente Contato'],
+                    statusCounts['Pendente Agendamento'],
                     statusCounts['Aguardando Visita'],
                     statusCounts['Visitada']
                 ],
-                backgroundColor: ['#FF6384', '#FFCE56', '#36A2EB'],
+                backgroundColor: ['#cd191e', '#FFCE56', '#2f9e41'],
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-        }
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Acompanhamento por Status'
+                },
+                datalabels: {
+                    formatter: (value, context) => {
+                        let total = context.chart.data.datasets[0].data.reduce((sum, value) => sum + value, 0);
+                        let percentage = (value / total * 100).toFixed(0) + '%';
+                        return `${value} (${percentage})`;
+                    },
+                    color: '#fff',
+                    font: {
+                        weight: 'bold',
+                        size: 12
+                    }
+                }
+            },
+        },
+        plugins: [ChartDataLabels]
     });
 }
 
 function updateVisitsTable(upcomingVisits) {
-    const tableBody = document.getElementById('visitsTable').getElementsByTagName('tbody')[0];
+    const tableBody = document.getElementById('visits-table-container').getElementsByTagName('tbody')[0];
     tableBody.innerHTML = '';
 
     upcomingVisits.forEach(escola => {
         const row = tableBody.insertRow();
         const cellName = row.insertCell(0);
         const cellDate = row.insertCell(1);
-
+        cellDate.style = "text-align: center"
         cellName.textContent = escola.nome;
         cellDate.textContent = escola.dataAgendamento || 'N/A';
     });
